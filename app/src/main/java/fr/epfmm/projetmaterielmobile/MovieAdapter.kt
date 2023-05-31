@@ -8,6 +8,45 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+
+class MovieViewHolder(view: View) : ViewHolder(view)
+
+class MovieAdapter(val activity: Context, val movieList: List<Movie>) :
+    RecyclerView.Adapter<MovieViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+        Log.d("PopularMovie inside Adapter: ", movieList.toString())
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val view = layoutInflater.inflate(R.layout.movieview, parent, false)
+        return MovieViewHolder(view)
+    }
+
+    override fun getItemCount(): Int = movieList.size
+
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+
+        val movie = movieList[position]
+
+        val view = holder.itemView
+
+        val titre = view.findViewById<TextView>(R.id.textViewTitle)
+        val release = view.findViewById<TextView>(R.id.textViewReleaseYear)
+        val overview = view.findViewById<TextView>(R.id.textViewOverview)
+
+        titre.text = movie.title
+//        release.text = movie.release_date
+//        overview.text = movie.overview
+
+        /*view.setOnClickListener {
+            val intent = Intent(activity, MovieDetailActivity::class.java)
+            intent.putExtra("release_date", movie.release_date)
+            intent.putExtra("movieTitle", movie.title)
+            activity.startActivity(intent)
+        }*/
+    }
+
+}
 
 /*class MovieAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
 
@@ -37,38 +76,6 @@ import androidx.recyclerview.widget.RecyclerView
         return movies.size
     }
     }*/
-class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-class MovieAdapter(val activity: Context, val movieList: List<Movie>) :
-    RecyclerView.Adapter<MovieViewHolder>() {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        Log.d("PopularMovie inside Adapter: ", movieList.toString())
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.movieview, parent, false)
-        return MovieViewHolder(view)
-    }
-
-    override fun getItemCount(): Int = movieList.size
-
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-
-        val movie = movieList[position]
-
-        val view = holder.itemView
-
-        val textView = view.findViewById<TextView>(R.id.textViewTitle)
-        textView.text = movie.title
-
-        /*view.setOnClickListener {
-            val intent = Intent(activity, MovieDetailActivity::class.java)
-            intent.putExtra("release_date", movie.release_date)
-            intent.putExtra("movieTitle", movie.title)
-            activity.startActivity(intent)
-        }*/
-    }
-    // val imageView = view.findViewById<ImageView>(R.id.movie_view_imageView)
-
-}
 
 

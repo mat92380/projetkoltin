@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         integrator.setBeepEnabled(true)
         integrator.initiateScan()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val result: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
