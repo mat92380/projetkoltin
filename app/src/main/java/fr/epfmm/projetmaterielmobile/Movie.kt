@@ -21,9 +21,15 @@ data class Movie(
     companion object{
 
     }
+    class SearchMoviesResponse(
+        val page: Int,
+        val results: List<Movie>,
+        val total_results: Int,
+        val total_pages: Int
+    )
 
     override fun toString(): String {
-        return "Movie(id=$id, title=$title)"
+        return "Movie(id='$id', title='$title')"
 //        return "{" +
 //                "adult='$adult', " +
 //                "overview='$overview', " +

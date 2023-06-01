@@ -25,10 +25,12 @@ import retrofit2.http.Query
 import java.io.IOException
 
 class SearchActivity : AppCompatActivity() {
-    private val apiKey = "1fe5620d00d4ae469ec6acb333c71aca"
+    private val apiKey = "72f72c971953b37f3f4171633505e5a1"
     lateinit var recyclerView: RecyclerView
     private lateinit var searchView: SearchView
     private var listMovies: ArrayList<Movie> = arrayListOf()
+
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -41,6 +43,7 @@ class SearchActivity : AppCompatActivity() {
 
         recyclerView.layoutManager =
             LinearLayoutManager(this, GridLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = GridLayoutManager(this, GridLayoutManager.VERTICAL)
         recyclerView.adapter = MovieAdapter(this@SearchActivity, listMovies)
 
 
@@ -49,6 +52,7 @@ class SearchActivity : AppCompatActivity() {
         searchButton.setOnClickListener {
             val query = searchView.query.toString()
             performSearch(query)
+            recyclerView.adapter?.notifyDataSetChanged()
         }
     }
 
@@ -69,15 +73,18 @@ class SearchActivity : AppCompatActivity() {
                 .build()
 
             val service = retrofit.create(MovieService::class.java)
-            val moviesResult = service.getMovies("1fe5620d00d4ae469ec6acb333c71aca",query,1)
+            val moviesResult = service.getMovies(apiKey,query,1)
+
             Log.d("Movies : ", moviesResult.toString())
 
-            val gson = Gson()
+            /*val gson = Gson()
             val jsonString =
                 moviesResult.toString() // Convertir la réponse en une chaîne de caractères
+            *//*val movieResponse = gson.fromJson(jsonString, Movie.MovieResponse::class.java)*//*
             val jsonObject = JSONArray(jsonString)
             val moviesType = object : TypeToken<List<Movie>>() {}.type
-            val movies: ArrayList<Movie> = gson.fromJson(jsonObject.toString(), moviesType)
+            val movies: List<Movie> = gson.fromJson(jsonString, moviesType)*/
+            /*val movies = movieResponse.results*/
 
             //ATTENTION LE ARRIVAL POINT EST NULL
 
@@ -85,11 +92,13 @@ class SearchActivity : AppCompatActivity() {
             /*val drivesType = object : TypeToken<List<Drive>>() {}.type
             val drives: ArrayList<Drive> = gson.fromJson(drivesResult.toString(), drivesType)*/
 
-            Log.d("Results2: ", moviesResult.toString())
+            /*Log.d("Results2: ", movies.toString())*/
 
 
-            if (moviesResult != null && moviesResult.isNotEmpty()) {
-                moviesResult.map {
+            /*if (movies != null && movies.isNotEmpty()) {
+                movies.map {*/
+            if ( moviesResult!=null) {
+                moviesResult.results.map {
                     listMovies.add(
                         Movie(
                             it.adult,
@@ -106,8 +115,9 @@ class SearchActivity : AppCompatActivity() {
                         )
                     )
                 }
-                Log.d("Size of Drive List: ", moviesResult.size.toString())
-                Log.d("liste course: ", moviesResult.toString())
+
+                //Log.d("Size of Drive List: ", moviesResult.size.toString())
+                Log.d("liste course: ", listMovies.toString())
             }
         }
 
