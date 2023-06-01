@@ -32,50 +32,26 @@ class MovieAdapter(val activity: Context, val movieList: List<Movie>) :
 
         val titre = view.findViewById<TextView>(R.id.textViewTitle)
         val release = view.findViewById<TextView>(R.id.textViewReleaseYear)
-        val overview = view.findViewById<TextView>(R.id.textViewOverview)
+        val note = view.findViewById<TextView>(R.id.textViewVoteAverage)
 
         titre.text = movie.title
-//        release.text = movie.release_date
-//        overview.text = movie.overview
+        release.text = "Date de sortie : " + movie.release_date
+        note.text = "Note : " +movie.vote_average.toString() + "/10"
 
-        /*view.setOnClickListener {
-            val intent = Intent(activity, MovieDetailActivity::class.java)
-            intent.putExtra("release_date", movie.release_date)
-            intent.putExtra("movieTitle", movie.title)
+        view.setOnClickListener {
+            val intent = Intent(activity, MovieDetailsActivity::class.java)
+            intent.putExtra("movie", movie)
+//            intent.putExtra("date", movie.release_date)
+//            intent.putExtra("title", movie.title)
+//            intent.putExtra("overview", movie.overview)
+//            intent.putExtra("language", movie.original_language)
+//            intent.putExtra("note", movie.vote_average)
             activity.startActivity(intent)
-        }*/
+        }
     }
 
 }
 
-/*class MovieAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
-
-    // Créez une classe interne ViewHolder pour contenir les vues des éléments de la liste
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // Déclarez les vues spécifiques à chaque élément de la liste ici
-        // Par exemple, vous pouvez avoir un TextView pour afficher le titre du film
-        val titleTextView: TextView = itemView.findViewById(R.id.textViewTitle)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        // Créez la vue pour chaque élément de la liste en inflatant le layout de l'élément
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.movieview, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // Récupérez l'objet Movie correspondant à la position donnée dans la liste
-        val movie = movies[position]
-
-        // Utilisez les données du film pour remplir les vues de l'élément de la liste
-        holder.titleTextView.text = movie.title
-    }
-
-    override fun getItemCount(): Int {
-        // Retournez le nombre total d'éléments dans la liste
-        return movies.size
-    }
-    }*/
 
 
 

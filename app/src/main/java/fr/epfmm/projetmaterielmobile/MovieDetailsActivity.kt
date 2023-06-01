@@ -3,58 +3,47 @@ package fr.epfmm.projetmaterielmobile
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
-import okhttp3.*
+import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Query
-import java.io.IOException
 
-class SearchActivity : AppCompatActivity() {
+class MovieDetailsActivity : AppCompatActivity() {
 
     private val apiKey = "72f72c971953b37f3f4171633505e5a1"
-    lateinit var recyclerView: RecyclerView
-    private lateinit var searchView: SearchView
+    val extras = intent.extras
+    val movieExtra = extras?.get("movie") as? Movie
     private var listMovies: ArrayList<Movie> = arrayListOf()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
-        recyclerView = findViewById<RecyclerView>(R.id.list_movies_recyclerview)
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        recyclerView.layoutManager =
-            LinearLayoutManager(this, GridLayoutManager.VERTICAL, false)
-        recyclerView.layoutManager = GridLayoutManager(this, GridLayoutManager.VERTICAL)
-        recyclerView.adapter = MovieAdapter(this@SearchActivity, listMovies)
+        setContentView(R.layout.movie_details_activity)
 
 
-        searchView = findViewById(R.id.searchView)
-        val searchButton = findViewById<Button>(R.id.SearchButton)
-        searchButton.setOnClickListener {
-            val query = searchView.query.toString()
-            performSearch(query)
-            recyclerView.adapter?.notifyDataSetChanged()
-        }
+        val title = findViewById<TextView>(R.id.moviedetails_title_textview)
+        val resume = findViewById<TextView>(R.id.moviedetails_resume_textview)
+        val date = findViewById<TextView>(R.id.moviedetails_date_textview)
+        val language = findViewById<TextView>(R.id.moviedetails_language_textview)
+        val note = findViewById<TextView>(R.id.moviedetails_note_textview)
+        val imageView = findViewById<ImageView>(R.id.detailsmovie_view_imageview)
+
+        title.text = movieExtra?.title
+        resume.text = movieExtra?.overview
+        date.text = movieExtra?.release_date
+        language.text = movieExtra?.original_language
+        note.text = movieExtra?.vote_average.toString()
+
+
     }
 
-    fun performSearch(query: String) = runBlocking {
+    fun Recommandations(id : Int) = runBlocking{
         val myGlobalVar = GlobalScope.async {
 
             val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
@@ -72,7 +61,7 @@ class SearchActivity : AppCompatActivity() {
                 .build()
 
             val service = retrofit.create(MovieService::class.java)
-            val moviesResult = service.getMovies(apiKey,query,1)
+            val moviesResult = service.getRecommandatedMovies(apiKey,movieExtra?.id)
 
             Log.d("Movies : ", moviesResult.toString())
 

@@ -1,6 +1,5 @@
 package fr.epfmm.projetmaterielmobile
 
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -17,5 +16,11 @@ interface MovieService {
         @Query("query") query: String,
         @Query("page") page: Int
     ) : /*List<Movie>*/ Movie.SearchMoviesResponse
+
+    @GET("movie/{movie_id}/recommendations")
+    suspend fun getRecommandatedMovies(
+        @Query("api_key") apiKey: String,
+        @Query("query") Id: Int?
+    ) : Movie.SearchMoviesResponse
 
 }

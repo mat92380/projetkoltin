@@ -5,18 +5,16 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Movie(
-    var adult: Boolean? = false,
-    var overview: String? = "",
-    var releaseDate: String? = "",
+    var adult: Boolean?,
+    var overview: String?,
+    var release_date: String?,
 //    var genreIds: ArrayList<Int> = arrayListOf(),
-    var id: Int? = 0,
-    var originalTitle: String? = "",
-    var originalLanguage: String? = "",
-    var title: String? = "",
-    var popularity: Double? = 0.0,
-    var voteCount: Int? = 0,
-    var voteAverage: Double? = 0.0,
-    val release_date: String
+    var id: Int?,
+    var original_language: String?,
+    var title: String?,
+    var popularity: Double?,
+    var vote_count: Int?,
+    var vote_average: Double?
 ) : Parcelable {
     companion object{
 
@@ -29,20 +27,17 @@ data class Movie(
     )
 
     override fun toString(): String {
-        return "Movie(id='$id', title='$title')"
-//        return "{" +
-//                "adult='$adult', " +
-//                "overview='$overview', " +
-//                "releaseDate='$releaseDate', " +
-//                "id='$id', " +
-//                "originalTitle='$originalTitle', " +
-//                "originalLanguage=$originalLanguage, " +
-//                "title=$title, " +
-//                "popularity=$popularity, " +
-//                "voteCount=$voteCount, " +
-//                "voteAverage=$voteAverage, " +
-//                "release_date=$release_date " +
-//                "}"
+        return "{" +
+                "adult='$adult', " +
+                "overview='$overview', " +
+                "release_date='$release_date', " +
+                "id='$id', " +
+                "original_language=$original_language, " +
+                "title=$title, " +
+                "popularity=$popularity, " +
+                "vote_count=$vote_count, " +
+                "vote_average=$vote_average, " +
+                "}"
     }
 
 
