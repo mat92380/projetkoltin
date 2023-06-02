@@ -6,9 +6,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.squareup.picasso.Picasso
 
 class MovieViewHolder(view: View) : ViewHolder(view)
 
@@ -27,20 +29,33 @@ class MovieAdapter(val activity: Context, val movieList: List<Movie>) :
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
 
         val movie = movieList[position]
-
         val view = holder.itemView
+
+        val affiche = view.findViewById<ImageView>(R.id.client_view_imageview)
+        val posterPath = movie.poster_path
+        val baseImageUrl = "https://image.tmdb.org/t/p/"
+        val posterUrl = baseImageUrl + "w600_and_h900_bestv2" + posterPath
+
 
         val titre = view.findViewById<TextView>(R.id.textViewTitle)
         val release = view.findViewById<TextView>(R.id.textViewReleaseYear)
         val note = view.findViewById<TextView>(R.id.textViewVoteAverage)
 
+
+
+
         titre.text = movie.title
         release.text = "Date de sortie : " + movie.release_date
         note.text = "Note : " +movie.vote_average.toString() + "/10"
+        Picasso.get()
+            .load(posterUrl)
+            .into(affiche)
 
         view.setOnClickListener {
             val intent = Intent(activity, MovieDetailsActivity::class.java)
             intent.putExtra("movie", movie)
+            Log.d("film movieadapter: ", movie.toString())
+
 //            intent.putExtra("date", movie.release_date)
 //            intent.putExtra("title", movie.title)
 //            intent.putExtra("overview", movie.overview)

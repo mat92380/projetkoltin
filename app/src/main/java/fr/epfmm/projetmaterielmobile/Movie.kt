@@ -14,7 +14,8 @@ data class Movie(
     var title: String?,
     var popularity: Double?,
     var vote_count: Int?,
-    var vote_average: Double?
+    var vote_average: Double?,
+    var poster_path: String?
 ) : Parcelable {
     companion object{
 

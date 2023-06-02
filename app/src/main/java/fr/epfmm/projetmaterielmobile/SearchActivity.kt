@@ -88,11 +88,12 @@ class SearchActivity : AppCompatActivity() {
                             it.title,
                             it.popularity,
                             it.vote_count,
-                            it.vote_average
+                            it.vote_average,
+                            it.poster_path
                         )
                     )
                 }
-                Log.d("liste course: ", listMovies.toString())
+                Log.d("liste film: ", listMovies.toString())
             }
         }
 
