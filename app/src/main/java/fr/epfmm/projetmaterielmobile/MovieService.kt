@@ -24,4 +24,9 @@ interface MovieService {
         @Query("api_key") apiKey: String,
     ) : Movie.SearchMoviesResponse
 
+    @GET("movie/{movie_id}")
+    suspend fun finById(
+        @Path("movie_id") Id: Int?,
+        @Query("api_key") apiKey: String
+    ) : Movie
 }

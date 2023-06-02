@@ -1,6 +1,7 @@
 package fr.epfmm.projetmaterielmobile
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -10,8 +11,16 @@ import android.widget.Button
 import android.widget.TextView
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
+    private val apiKey = "72f72c971953b37f3f4171633505e5a1"
     private fun startQRScan() {
         val integrator = IntentIntegrator(this)
         integrator.setPrompt("Scan a QR code")
@@ -51,16 +60,50 @@ class MainActivity : AppCompatActivity() {
             if (result.contents == null) {
                 Log.d(TAG, "Cancelled scan")
             } else {
-                val scanResult = result.contents
-                val tvScanResult = findViewById<TextView>(R.id.tv_scan_result)
-                tvScanResult.text = scanResult
+                val lien = result.contents
+                /*val tvScanResult = findViewById<TextView>(R.id.tv_scan_result)
+                tvScanResult.text = lien*/
+                val movieId = lien.substringAfterLast("/movie/").substringBefore("-")
+                Log.d("Movie id : ", movieId.toString())
 
-                val intent = Intent(Intent.ACTION_VIEW)
+                /*val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(tvScanResult.text.toString())
-                startActivity(intent)
+                startActivity(intent)*/
+                PerformId(Integer.parseInt(movieId))
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+    fun PerformId(movie_id: Int) = runBlocking {
+        val myGlobalVar = GlobalScope.async {
+
+            val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+
+            val client = OkHttpClient.Builder()
+                .addInterceptor(httpLoggingInterceptor)
+                .build()
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl("https://api.themoviedb.org/3/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build()
+
+            val service = retrofit.create(MovieService::class.java)
+            val moviesResult = service.finById(movie_id, apiKey) as Movie
+
+            Log.d("Movie search : ", moviesResult.toString())
+
+            Log.d("Movie details : ", moviesResult.title.toString())
+
+
+            val intent = Intent(this@MainActivity, MovieDetailsActivity::class.java)
+            intent.putExtra("movie", moviesResult)
+            startActivity(intent)
+
         }
     }
 }
