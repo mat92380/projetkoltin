@@ -80,33 +80,12 @@ class FavoriActivity: AppCompatActivity() {
 
             }
             Log.d("Moviename : ", listefav[1].title.toString())
-            /*if ( moviesResult!=null) {
-                moviesResult.results.map {
-                    listMovies.add(
-                        Movie(
-                            it.adult,
-                            it.overview,
-                            it.release_date,
-                            it.id,
-                            it.original_language,
-                            it.title,
-                            it.popularity,
-                            it.vote_count,
-                            it.vote_average,
-                            it.poster_path
-                        )
-                    )
-                }*/
+
 
 
             Log.d("Movie search fonction: ", listefav.toString())
 
-            /*Log.d("Movie details : ", movieResult.title.toString())*/
 
-
-            /*val intent = Intent(this@MainActivity, MovieDetailsActivity::class.java)
-            intent.putExtra("movie", moviesResult)
-            startActivity(intent)*/
 
         }
         val result = myGlobalVar.await()

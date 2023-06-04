@@ -161,10 +161,7 @@ class MovieDetailsActivity : AppCompatActivity() {
             // Ajouter le favori dans le fichier
             val fileWriter = FileWriter(file, true)
             fileWriter.write("$filmId\n")
-            /*val raf = RandomAccessFile(file, "rw")
-            raf.setLength(0)
-            raf.close()
-            println("Contenu du fichier effacé avec succès.")*/
+
 
             fileWriter.close()
 
@@ -174,6 +171,7 @@ class MovieDetailsActivity : AppCompatActivity() {
             val chemin = file.absolutePath.toString()
             println("Chemin du fichier : $chemin")
             println("Favori ajouté avec succès.")
+            Toast.makeText(applicationContext, "Favori ajouté avec succès.", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             println("Erreur lors de l'ajout du favori : ${e.message}")
         }
