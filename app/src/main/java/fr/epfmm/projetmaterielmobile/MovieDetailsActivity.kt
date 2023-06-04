@@ -3,12 +3,15 @@ package fr.epfmm.projetmaterielmobile
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -17,6 +20,9 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
+import java.io.FileWriter
+import java.io.RandomAccessFile
 
 class MovieDetailsActivity : AppCompatActivity() {
 
@@ -30,6 +36,7 @@ class MovieDetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.movie_details_activity)
+
         val extras = intent.extras
         val movieExtra = extras?.get("movie") as? Movie
         Log.d("film : ",movieExtra.toString() )
@@ -42,6 +49,7 @@ class MovieDetailsActivity : AppCompatActivity() {
         recyclerView.layoutManager = GridLayoutManager(this, GridLayoutManager.VERTICAL)
         recyclerView.adapter = MovieAdapter(this@MovieDetailsActivity, listRecos)
 
+        val favoributton = findViewById<Button>(R.id.FavButton)
         val title = findViewById<TextView>(R.id.moviedetails_title_textview)
         val resume = findViewById<TextView>(R.id.moviedetails_resume_textview)
         val date = findViewById<TextView>(R.id.moviedetails_date_textview)
@@ -60,7 +68,13 @@ class MovieDetailsActivity : AppCompatActivity() {
         date.text = movieExtra?.release_date
         language.text = movieExtra?.original_language
         note.text = movieExtra?.vote_average.toString()+"/10"
+        favoributton.setOnClickListener {
+        ajouterFavori(movieExtra!!.id.toString())
+            favoributton.isEnabled = false
+        }
         Recommandations()
+
+
 
     }
 
@@ -114,5 +128,57 @@ class MovieDetailsActivity : AppCompatActivity() {
 
         println(result) // Affiche
     }
+
+    fun ajouterFavori(filmId: String) {
+        val dataDir = applicationContext.filesDir
+        val directoryName = "myDataDirectory"
+
+        val directory = File(dataDir, directoryName)
+        if (!directory.exists()) {
+            directory.mkdirs()
+        }
+
+        val file = File(directory, "listefavori.txt")
+
+        try {
+            // Vérifier si le fichier existe
+            if (!file.exists()) {
+                file.createNewFile()
+                if (file.exists()) {
+                    println("Le fichier existe.")
+                    val chemin = file.absolutePath.toString()
+                    println("Chemin du fichier : $chemin")
+                } else {
+                    println("Le fichier n'existe pas ou le chemin est incorrect.")
+                }
+            }
+            val contenu = file.readText()
+            if (contenu.contains(filmId)) {
+                println("Le film est déjà présent dans les favoris.")
+                Toast.makeText(applicationContext, "Le film est déjà présent dans les favoris.", Toast.LENGTH_SHORT).show()
+                return
+            }
+            // Ajouter le favori dans le fichier
+            val fileWriter = FileWriter(file, true)
+            fileWriter.write("$filmId\n")
+            /*val raf = RandomAccessFile(file, "rw")
+            raf.setLength(0)
+            raf.close()
+            println("Contenu du fichier effacé avec succès.")*/
+
+            fileWriter.close()
+
+            println("Contenu du fichier :")
+            println(contenu)
+            println("Le fichier existe.")
+            val chemin = file.absolutePath.toString()
+            println("Chemin du fichier : $chemin")
+            println("Favori ajouté avec succès.")
+        } catch (e: Exception) {
+            println("Erreur lors de l'ajout du favori : ${e.message}")
+        }
+    }
+
+
 
 }
