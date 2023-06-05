@@ -79,7 +79,7 @@ class FavoriActivity: AppCompatActivity() {
 
 
             }
-            Log.d("Moviename : ", listefav[1].title.toString())
+            /*Log.d("Moviename : ", listefav[1].title.toString())*/
 
 
 
