@@ -11,7 +11,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="30dp"
             android:orientation="vertical"
             android:gravity="center_horizontal">
 
@@ -22,15 +22,17 @@
                 android:gravity="center"
                 android:text="Rechercher un film"
                 android:textSize="30dp"
-                android:layout_marginBottom="20dp"
-                android:textStyle="bold" />
+                android:layout_marginBottom="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:iconifiedByDefault="false"
-                android:queryHint="Rechercher..." />
+                android:queryHint="Rechercher..."
+                android:layout_marginBottom="10dp"/>
 
             <Button
                 android:id="@+id/SearchButton"
