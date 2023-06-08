@@ -15,6 +15,10 @@
     <color name="blue_dark">#005B9F</color>
     <color name="blue_light">#81D4FA</color>
 
+    <color name="fond">#FDE0E0</color>
+    <color name="fond2">#FFEDED</color>
+    <color name="fond3">#FFCACA</color>
+
     <color name="gradient_start">#F40608</color>
     <color name="gradient_end">#920304</color>
 </resources>

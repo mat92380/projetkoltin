@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchActivity">
+    tools:context=".SearchActivity"
+    android:background="@drawable/degrade_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,6 +25,7 @@
                 android:id="@+id/moviedetails_title_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:textSize="30dp"
                 android:textStyle="bold"
                 android:gravity="center"/>
@@ -120,9 +122,13 @@
             <Button
                 android:id="@+id/FavButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ajouter au favori"
-                android:layout_gravity="center" />
+                android:layout_height="60dp"
+                android:text="Ajouter aux favoris"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:background="@drawable/degrade_couleur"
+                />
 
         </LinearLayout>
 

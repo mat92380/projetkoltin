@@ -23,6 +23,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.io.FileWriter
 import java.io.RandomAccessFile
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
+import androidx.core.content.ContextCompat
 
 class MovieDetailsActivity : AppCompatActivity() {
 
@@ -50,6 +55,19 @@ class MovieDetailsActivity : AppCompatActivity() {
         recyclerView.adapter = MovieAdapter(this@MovieDetailsActivity, listRecos)
 
         val favoributton = findViewById<Button>(R.id.FavButton)
+        val startColor = ContextCompat.getColor(this, R.color.gradient_start)
+        val endColor = ContextCompat.getColor(this, R.color.gradient_end)
+
+        val gradientDrawable = GradientDrawable(
+            GradientDrawable.Orientation.LEFT_RIGHT,
+            intArrayOf(startColor, endColor)
+        )
+
+        gradientDrawable.cornerRadius = 10f // Ajustez le rayon des coins si nécessaire
+
+// Appliquer le dégradé de couleur au bouton
+        favoributton.background = gradientDrawable
+
         val title = findViewById<TextView>(R.id.moviedetails_title_textview)
         val resume = findViewById<TextView>(R.id.moviedetails_resume_textview)
         val date = findViewById<TextView>(R.id.moviedetails_date_textview)
@@ -68,6 +86,7 @@ class MovieDetailsActivity : AppCompatActivity() {
         date.text = movieExtra?.release_date
         language.text = movieExtra?.original_language
         note.text = movieExtra?.vote_average.toString()+"/10"
+
         favoributton.setOnClickListener {
         ajouterFavori(movieExtra!!.id.toString())
             favoributton.isEnabled = false

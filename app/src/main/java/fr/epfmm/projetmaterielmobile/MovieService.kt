@@ -9,14 +9,14 @@ interface MovieService {
     @GET("movie/popular")
     suspend fun getPopularMovies(
         @Query("api_key") apiKey: String
-    ) : ArrayList<Movie>
+    ) : Movie.SearchMoviesResponse
 
     @GET("search/movie")
     suspend fun getMovies(
         @Query("api_key") apiKey: String,
         @Query("query") query: String,
         @Query("page") page: Int
-    ) : /*List<Movie>*/ Movie.SearchMoviesResponse
+    ) : Movie.SearchMoviesResponse
 
     @GET("movie/{movie_id}/recommendations")
     suspend fun getRecommandatedMovies(

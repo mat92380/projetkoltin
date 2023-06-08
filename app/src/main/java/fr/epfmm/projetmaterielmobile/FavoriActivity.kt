@@ -34,6 +34,7 @@ class FavoriActivity: AppCompatActivity() {
         Log.d("Movie search main: ", listefav.toString())
         recyclerView.adapter?.notifyDataSetChanged()
     }
+
     fun recupererFavoris(): List<String> {
         val file = File("/data/user/0/fr.epfmm.projetmaterielmobile/files/myDataDirectory/listefavori.txt")
 
@@ -43,7 +44,6 @@ class FavoriActivity: AppCompatActivity() {
                 lines.forEach { line ->
                     val id = line.trim()
                     favoris.add(id)
-
                 }
             }
         } else {
