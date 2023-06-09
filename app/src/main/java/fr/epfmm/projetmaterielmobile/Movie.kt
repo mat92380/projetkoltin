@@ -8,7 +8,6 @@ data class Movie(
     var adult: Boolean?,
     var overview: String?,
     var release_date: String?,
-//    var genreIds: ArrayList<Int> = arrayListOf(),
     var id: Int?,
     var original_language: String?,
     var title: String?,
@@ -40,7 +39,4 @@ data class Movie(
                 "vote_average=$vote_average, " +
                 "}"
     }
-
-
-
 }

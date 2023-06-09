@@ -42,8 +42,7 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.layoutManager =
             LinearLayoutManager(this, GridLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = GridLayoutManager(this, GridLayoutManager.VERTICAL)
-        recyclerView.adapter = MovieAdapter(this@SearchActivity, listMovies)
-
+        recyclerView.adapter = MovieAdapterVertical(this@SearchActivity, listMovies)
 
         searchView = findViewById(R.id.searchView)
         val searchButton = findViewById<Button>(R.id.SearchButton)
@@ -56,7 +55,6 @@ class SearchActivity : AppCompatActivity() {
 
     fun performSearch(query: String) = runBlocking {
         val myGlobalVar = GlobalScope.async {
-
             val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             }
@@ -96,10 +94,7 @@ class SearchActivity : AppCompatActivity() {
                 Log.d("liste film: ", listMovies.toString())
             }
         }
-
         val result = myGlobalVar.await()
-
-        println(result) // Affiche
+        println(result)
     }
-
 }

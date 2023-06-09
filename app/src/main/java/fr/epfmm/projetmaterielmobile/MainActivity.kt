@@ -37,10 +37,9 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         recyclerView.layoutManager =
-            LinearLayoutManager(this, GridLayoutManager.VERTICAL, false)
-        recyclerView.layoutManager = GridLayoutManager(this, GridLayoutManager.VERTICAL)
-        recyclerView.adapter = MovieAdapter(this@MainActivity, listMovies)
-
+            LinearLayoutManager(this, GridLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false)
+        recyclerView.adapter = MovieAdapterHorizontal(this@MainActivity, listMovies)
 
         val SearchButton = findViewById<Button>(R.id.Search_Button)
         val Fav_Button = findViewById<Button>(R.id.Fav_Button)
@@ -86,14 +85,8 @@ class MainActivity : AppCompatActivity() {
                 Log.d(TAG, "Cancelled scan")
             } else {
                 val lien = result.contents
-                /*val tvScanResult = findViewById<TextView>(R.id.tv_scan_result)
-                tvScanResult.text = lien*/
                 val movieId = lien.substringAfterLast("/movie/").substringBefore("-")
                 Log.d("Movie id : ", movieId.toString())
-
-                /*val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(tvScanResult.text.toString())
-                startActivity(intent)*/
                 PerformId(Integer.parseInt(movieId))
             }
         } else {
@@ -103,7 +96,6 @@ class MainActivity : AppCompatActivity() {
 
     fun PerformId(movie_id: Int) = runBlocking {
         val myGlobalVar = GlobalScope.async {
-
             val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             }
@@ -125,7 +117,6 @@ class MainActivity : AppCompatActivity() {
 
             Log.d("Movie details : ", moviesResult.title.toString())
 
-
             val intent = Intent(this@MainActivity, MovieDetailsActivity::class.java)
             intent.putExtra("movie", moviesResult)
             startActivity(intent)
@@ -134,7 +125,6 @@ class MainActivity : AppCompatActivity() {
 
     fun getPopularMovies() = runBlocking {
         val myGlobalVar = GlobalScope.async {
-
             val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             }
@@ -174,10 +164,8 @@ class MainActivity : AppCompatActivity() {
                 Log.d("liste film: ", listMovies.toString())
             }
         }
-
         val result = myGlobalVar.await()
-
-        println(result) // Affiche
+        println(result)
     }
 
 }

@@ -29,7 +29,7 @@ class FavoriActivity: AppCompatActivity() {
         recyclerView.layoutManager =
             LinearLayoutManager(this, GridLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = GridLayoutManager(this, GridLayoutManager.VERTICAL)
-        recyclerView.adapter = MovieAdapter(this@FavoriActivity, listefav)
+        recyclerView.adapter = MovieAdapterVertical(this@FavoriActivity, listefav)
         recupererFavoris()
         Log.d("Movie search main: ", listefav.toString())
         recyclerView.adapter?.notifyDataSetChanged()
@@ -37,8 +37,6 @@ class FavoriActivity: AppCompatActivity() {
 
     fun recupererFavoris(): List<String> {
         val file = File("/data/user/0/fr.epfmm.projetmaterielmobile/files/myDataDirectory/listefavori.txt")
-
-
         if (file.exists() && file.canRead()) {
             file.bufferedReader().useLines { lines ->
                 lines.forEach { line ->
@@ -76,20 +74,11 @@ class FavoriActivity: AppCompatActivity() {
             for (id in favoris) {
                 val movieResult = service.finById(Integer.parseInt(id), apiKey) as Movie
                 listefav.add(movieResult)
-
-
             }
-            /*Log.d("Moviename : ", listefav[1].title.toString())*/
-
-
-
             Log.d("Movie search fonction: ", listefav.toString())
-
-
-
         }
         val result = myGlobalVar.await()
-
+        println(result)
     }
 
 }

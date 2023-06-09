@@ -32,8 +32,6 @@ import androidx.core.content.ContextCompat
 class MovieDetailsActivity : AppCompatActivity() {
 
     private val apiKey = "72f72c971953b37f3f4171633505e5a1"
-    /*val extras = intent.extras
-    val movieExtra = extras?.get("movie") as? Movie*/
     lateinit var recyclerView: RecyclerView
     private var listRecos: ArrayList<Movie> = arrayListOf()
 
@@ -52,22 +50,9 @@ class MovieDetailsActivity : AppCompatActivity() {
         recyclerView.layoutManager =
             LinearLayoutManager(this, GridLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = GridLayoutManager(this, GridLayoutManager.VERTICAL)
-        recyclerView.adapter = MovieAdapter(this@MovieDetailsActivity, listRecos)
+        recyclerView.adapter = MovieAdapterVertical(this@MovieDetailsActivity, listRecos)
 
         val favoributton = findViewById<Button>(R.id.FavButton)
-        val startColor = ContextCompat.getColor(this, R.color.gradient_start)
-        val endColor = ContextCompat.getColor(this, R.color.gradient_end)
-
-        val gradientDrawable = GradientDrawable(
-            GradientDrawable.Orientation.LEFT_RIGHT,
-            intArrayOf(startColor, endColor)
-        )
-
-        gradientDrawable.cornerRadius = 10f // Ajustez le rayon des coins si nécessaire
-
-// Appliquer le dégradé de couleur au bouton
-        favoributton.background = gradientDrawable
-
         val title = findViewById<TextView>(R.id.moviedetails_title_textview)
         val resume = findViewById<TextView>(R.id.moviedetails_resume_textview)
         val date = findViewById<TextView>(R.id.moviedetails_date_textview)
@@ -92,9 +77,6 @@ class MovieDetailsActivity : AppCompatActivity() {
             favoributton.isEnabled = false
         }
         Recommandations()
-
-
-
     }
 
     fun Recommandations() = runBlocking{
@@ -141,17 +123,13 @@ class MovieDetailsActivity : AppCompatActivity() {
                 Log.d("liste reco: ", listRecos.toString())
             }
         }
-
-
         val result = myGlobalVar.await()
-
-        println(result) // Affiche
+        println(result)
     }
 
     fun ajouterFavori(filmId: String) {
         val dataDir = applicationContext.filesDir
         val directoryName = "myDataDirectory"
-
         val directory = File(dataDir, directoryName)
         if (!directory.exists()) {
             directory.mkdirs()
@@ -180,10 +158,7 @@ class MovieDetailsActivity : AppCompatActivity() {
             // Ajouter le favori dans le fichier
             val fileWriter = FileWriter(file, true)
             fileWriter.write("$filmId\n")
-
-
             fileWriter.close()
-
             println("Contenu du fichier :")
             println(contenu)
             println("Le fichier existe.")
